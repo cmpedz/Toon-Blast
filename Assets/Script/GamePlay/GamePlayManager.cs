@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GamePlayController : MonoBehaviour
+public class GamePlayManager : MonoBehaviour
 {
-    private static GamePlayController _instance;
-    public static GamePlayController Instance
+    private static GamePlayManager _instance;
+    public static GamePlayManager Instance
     {
         get { return _instance; }
     }
 
 
     [SerializeField] private FieldManager _fieldManager;
+
+    [SerializeField] private BlockPool _blockPool;
 
     //queue to save adjacent blocks need to checked 
     private Queue<BlockController> _detectSimilarBlockQueue = new Queue<BlockController>();
@@ -94,14 +96,14 @@ public class GamePlayController : MonoBehaviour
 
 
 
-        DestroyAllAdjacentSimilarBlock();
+        DisableAllAdjacentSimilarBlock();
 
         //reset list, queue
         _detectSimilarBlockQueue.Clear();
         _foundSimilarBlocksList.Clear();
     }
 
-    private void DestroyAllAdjacentSimilarBlock()
+    private void DisableAllAdjacentSimilarBlock()
     {
         bool isHavingAdjacentSimilarBlockType = _foundSimilarBlocksList.Count > 1;
 
@@ -127,9 +129,7 @@ public class GamePlayController : MonoBehaviour
                 colsLackBlocks.Add(targetColIndex, 1);
             }
 
-            fieldBlock.OnDestroyEvent();
-
-
+            _blockPool.SendBlockBackToPool(fieldBlock);
 
         }
 

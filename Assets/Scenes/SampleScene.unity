@@ -437,6 +437,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 184017050}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1234834983 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8177539738637655515, guid: 0a3b2b1bad24ff342ad366e2f8172526, type: 3}
+  m_PrefabInstance: {fileID: 4583687195108950089}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44430bb3458d7994a9405895033fd71b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1681476125
 GameObject:
   m_ObjectHideFlags: 0
@@ -513,6 +524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fieldManager: {fileID: 653704918}
+  _blockPool: {fileID: 184017051}
 --- !u!1 &2036764215
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,7 +575,7 @@ PrefabInstance:
     - target: {fileID: 538617683824968229, guid: af344e987e5372b4eb20a34688fd9171, type: 3}
       propertyPath: _summonBlockController
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1234834983}
     - target: {fileID: 1080841110114969841, guid: af344e987e5372b4eb20a34688fd9171, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.10787839

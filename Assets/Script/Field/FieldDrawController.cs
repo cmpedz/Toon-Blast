@@ -69,7 +69,7 @@ public class FieldDrawController : MonoBehaviour
             {
                 Vector2 renderPos = GetRenderFieldBlockPos(j, i);
 
-                _field[i, j] = _blockPool.GetRandomBlock(renderPos);
+                _field[i, j] = _blockPool.RetrieveBlockFromPool(renderPos);
 
                 Vector2 roundRenderPos = new Vector2((float) Math.Round(renderPos.x, 2), (float)Math.Round(renderPos.y, 2));
 

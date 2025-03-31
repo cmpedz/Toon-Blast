@@ -7,6 +7,7 @@ public class SummonBlockController : MonoBehaviour
     [SerializeField] private FieldDrawController _topField;
     
 
+    //using async method to optimize performance
     public BlockController GetBlockFromTopField(int rowIndex, int colIndex)
     {
         BlockController retrievedBlock = _topField.Field[rowIndex, colIndex];

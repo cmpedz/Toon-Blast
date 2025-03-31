@@ -91,8 +91,8 @@ public class FillBlockController : MonoBehaviour
             {
                 Debug.Log("adding new block directly into matrix");
                 Vector2 posFilled = _fieldDraw.TransformFromMatrixIndexToPos(needFilledRowIndex, needFilledColIndex);
-                blockFill = _blockPool.GetRandomBlock(posFilled);
-                blockFill.gameObject.SetActive(true);
+                blockFill = _blockPool.RetrieveBlockFromPool(posFilled);
+                
             }
 
             AddBlock(needFilledRowIndex, needFilledColIndex, blockFill);

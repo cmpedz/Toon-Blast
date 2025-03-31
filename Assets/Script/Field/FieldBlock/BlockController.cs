@@ -6,6 +6,14 @@ using UnityEngine.EventSystems;
 public class BlockController : MonoBehaviour
 {
     [SerializeField] private int type;
+
+    private bool _isBooster;
+    public bool IsBooster
+    {
+        get { return _isBooster; }
+        set { _isBooster = value; } 
+    }
+
     public int Type { get { return type; } }
 
     public bool IsEqual(BlockController other)
@@ -17,10 +25,10 @@ public class BlockController : MonoBehaviour
     private void OnMouseDown()
     {
 
-        GamePlayController.Instance.OnBlockClicked(this);
+        GamePlayManager.Instance.OnBlockClicked(this);
     }
 
-    public void OnDestroyEvent()
+    public void OnInActiveEvent()
     {
 
         gameObject.SetActive(false);
