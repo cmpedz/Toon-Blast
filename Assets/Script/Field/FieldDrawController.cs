@@ -96,13 +96,18 @@ public class FieldDrawController : MonoBehaviour
     {
         Vector2 roundPos = new Vector2((float)Math.Round(pos.x, 2), (float)Math.Round(pos.y, 2));
 
-        Vector2 matrixIndex = _blockPosToMatrixIndexDic[roundPos];
+        if (_blockPosToMatrixIndexDic.TryGetValue(roundPos, out Vector2 matrixIndex))
+        {
+            float rowIndex = matrixIndex.x;
 
-        float rowIndex = matrixIndex.x;
+            float colIndex = matrixIndex.y;
 
-        float colIndex = matrixIndex.y;
+            return new Vector2(rowIndex, colIndex);
+        }
 
-        return new Vector2(rowIndex, colIndex);
+        return Vector2.zero;
+
+       
     }
 
     public Vector2 GetRenderFieldBlockPos(int colIndex, int rowIndex)

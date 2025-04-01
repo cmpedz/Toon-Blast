@@ -12,6 +12,14 @@ PrefabInstance:
       propertyPath: type
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 591825514369408884, guid: 985b7d6961b264241892775496d3df6f, type: 3}
+      propertyPath: _type
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 591825514369408884, guid: 985b7d6961b264241892775496d3df6f, type: 3}
+      propertyPath: _defaultIcon
+      value: 
+      objectReference: {fileID: 21300000, guid: 83106a406f2838f4d8cb1650e3412a21, type: 3}
     - target: {fileID: 2730762981757573145, guid: 985b7d6961b264241892775496d3df6f, type: 3}
       propertyPath: m_Name
       value: Basic Block 4 Variant

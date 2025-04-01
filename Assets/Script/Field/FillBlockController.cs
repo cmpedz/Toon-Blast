@@ -1,7 +1,7 @@
 ﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class FillBlockController : MonoBehaviour
@@ -13,7 +13,7 @@ public class FillBlockController : MonoBehaviour
     [SerializeField] private BlockPool _blockPool;
 
     [SerializeField] private SummonBlockController _summonBlockController;
-    private void AddBlock(int rowIndex, int colIndex, BlockController block)
+    private DG.Tweening.Tween AddBlock(int rowIndex, int colIndex, BlockController block)
     {
         Debug.Log("fill block !");
 
@@ -23,16 +23,17 @@ public class FillBlockController : MonoBehaviour
 
         float height = block.transform.position.y - posInMatrix.y;
 
-        block.transform.DOMove(posInMatrix, _speedFallDown * height);
+        return block.transform.DOMove(posInMatrix, _speedFallDown * height);
  
     }
 
-    public void FillBlockIntoField(int colIndex, int quantitiesMissBlock)
+   
+    public async UniTask FillBlockIntoField(int colIndex, int quantitiesMissBlock)
     {
 
-        Debug.Log("start fill block process in col : " + colIndex + "with quantities miss blocks : " + quantitiesMissBlock);
-
         BlockController[,] field = _fieldDraw.Field;
+
+        var addBlockTasks = DOTween.Sequence();
       
         //push top block down to fill the field
         for (int rowIndex = _fieldDraw.NumRows - 1; rowIndex >= 0 ;rowIndex--)
@@ -54,9 +55,9 @@ public class FillBlockController : MonoBehaviour
                    
                     Debug.Log("detect top block to fill : " + rowIndex + " " + colIndex);
                     BlockController tmp = field[rowIndex, colIndex];
-                    AddBlock(rowIndex, colIndex, field[j, colIndex]);
+                    addBlockTasks.Join(AddBlock(rowIndex, colIndex, field[j, colIndex]));
                     field[j, colIndex] = tmp;
-
+                    
 
 
                 }
@@ -95,8 +96,11 @@ public class FillBlockController : MonoBehaviour
                 
             }
 
-            AddBlock(needFilledRowIndex, needFilledColIndex, blockFill);
+            addBlockTasks.Join(AddBlock(needFilledRowIndex, needFilledColIndex, blockFill));
+
+            
         }
 
+        await addBlockTasks.AsyncWaitForCompletion();
     }
 }

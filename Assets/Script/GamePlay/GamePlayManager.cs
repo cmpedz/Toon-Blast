@@ -15,11 +15,7 @@ public class GamePlayManager : MonoBehaviour
 
     [SerializeField] private BlockPool _blockPool;
 
-    //queue to save adjacent blocks need to checked 
-    private Queue<BlockController> _detectSimilarBlockQueue = new Queue<BlockController>();
-
-    //list to save all same type block found
-    private List<BlockController> _foundSimilarBlocksList = new List<BlockController>();
+    [SerializeField] private CheckMatrixController _checkMatrixController;
 
     
 
@@ -38,72 +34,20 @@ public class GamePlayManager : MonoBehaviour
         }
     }
 
-    private void CheckAdjacentBlock(int colIndex, int rowIndex, BlockController target)
-    {
-
-        bool isOverComeMatrix = colIndex >= _fieldManager.GetFieldInfors().NumCols 
-            || rowIndex >= _fieldManager.GetFieldInfors().NumRows
-            || colIndex < 0 || rowIndex < 0;
-
-        if (isOverComeMatrix)
-        {
-            return;
-        }
-
-        BlockController checkFieldBlock = _fieldManager.GetFieldInfors().Field[rowIndex, colIndex];
-
-        if (target.IsEqual(checkFieldBlock))
-        {
-
-            if (!_foundSimilarBlocksList.Contains(checkFieldBlock))
-            {
-                _detectSimilarBlockQueue.Enqueue(checkFieldBlock);
-
-                _foundSimilarBlocksList.Add(checkFieldBlock);
-
-            }
-        }
-    }
+    
 
     //handle field block clicked event 
     public void OnBlockClicked(BlockController clickedFieldBlock)
     {
 
-        _detectSimilarBlockQueue.Enqueue(clickedFieldBlock);
+        List<BlockController> foundSimilarBlocksList = _checkMatrixController.CheckMatrix(clickedFieldBlock);
 
-        _foundSimilarBlocksList.Add(clickedFieldBlock);
+        DisableAllAdjacentSimilarBlock(foundSimilarBlocksList);
 
-
-        //check adjacent blocks 
-        while (_detectSimilarBlockQueue.Count > 0)
-        {
-            BlockController fieldBlock = _detectSimilarBlockQueue.Dequeue();
-
-            Vector2 matrixIndex = FieldDrawController.TransformFromPosToMatrixIndex(fieldBlock.transform.position);
-
-            int colIndex = (int)matrixIndex.y;
-
-            int rowIndex = (int)matrixIndex.x; 
-
-            CheckAdjacentBlock(colIndex + 1, rowIndex, fieldBlock);
-
-            CheckAdjacentBlock(colIndex, rowIndex + 1, fieldBlock);
-
-            CheckAdjacentBlock(colIndex - 1, rowIndex, fieldBlock);
-
-            CheckAdjacentBlock(colIndex, rowIndex - 1, fieldBlock);
-        }
-
-
-
-        DisableAllAdjacentSimilarBlock();
-
-        //reset list, queue
-        _detectSimilarBlockQueue.Clear();
-        _foundSimilarBlocksList.Clear();
+       
     }
 
-    private void DisableAllAdjacentSimilarBlock()
+    private void DisableAllAdjacentSimilarBlock(List<BlockController> _foundSimilarBlocksList)
     {
         bool isHavingAdjacentSimilarBlockType = _foundSimilarBlocksList.Count > 1;
 
@@ -136,6 +80,4 @@ public class GamePlayManager : MonoBehaviour
         _fieldManager.FillingBlock(colsLackBlocks);
 
     }
-
-
 }
