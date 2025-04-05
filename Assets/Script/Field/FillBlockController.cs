@@ -13,9 +13,11 @@ public class FillBlockController : MonoBehaviour
     [SerializeField] private BlockPool _blockPool;
 
     [SerializeField] private SummonBlockController _summonBlockController;
-    private DG.Tweening.Tween AddBlock(int rowIndex, int colIndex, BlockController block)
+    private void AddBlockFromTopPos(int rowIndex, int colIndex, BlockController block)
     {
         Debug.Log("fill block !");
+
+        if (block == null) return;
 
         Vector2 posInMatrix = _fieldDraw.TransformFromMatrixIndexToPos(rowIndex, colIndex);
 
@@ -23,60 +25,53 @@ public class FillBlockController : MonoBehaviour
 
         float height = block.transform.position.y - posInMatrix.y;
 
-        return block.transform.DOMove(posInMatrix, _speedFallDown * height);
+        block.transform.DOMove(posInMatrix, _speedFallDown * height)
+            .SetEase(Ease.InQuad);
  
     }
 
-   
-    public async UniTask FillBlockIntoField(int colIndex, int quantitiesMissBlock)
+    public void AddBlockDirectlyToMatrix(int rowIndex, int colIndex, BlockController block)
     {
+        Vector2 posInMatrix = _fieldDraw.TransformFromMatrixIndexToPos(rowIndex, colIndex);
 
+        block.gameObject.SetActive(true);
+
+        block.transform.position = posInMatrix;
+
+        _fieldDraw.Field[rowIndex, colIndex] = block;
+    }
+
+    private void PushTopBlockDown(int rowIndex, int colIndex)
+    {
         BlockController[,] field = _fieldDraw.Field;
 
-        var addBlockTasks = DOTween.Sequence();
-      
         //push top block down to fill the field
-        for (int rowIndex = _fieldDraw.NumRows - 1; rowIndex >= 0 ;rowIndex--)
+        int j = rowIndex;
+
+        while (field[j, colIndex] == null && j >= 0)
         {
-          
-            if (!field[rowIndex, colIndex].gameObject.activeSelf)
-            {
-                int j = rowIndex; 
-                Debug.Log("check 2" + rowIndex + " " + colIndex);
-                while (!field[j, colIndex].gameObject.activeSelf && j >= 0)
-                {
-                    Debug.Log("check 3");
-                    j--;
-                    if (j < 0) break;
-                }
-
-                if(j >= 0)
-                {
-                   
-                    Debug.Log("detect top block to fill : " + rowIndex + " " + colIndex);
-                    BlockController tmp = field[rowIndex, colIndex];
-                    addBlockTasks.Join(AddBlock(rowIndex, colIndex, field[j, colIndex]));
-                    field[j, colIndex] = tmp;
-                    
-
-
-                }
-            }
+            Debug.Log("check 3");
+            j--;
+            if (j < 0) break;
         }
 
-        Debug.Log("quantities missing block : " + quantitiesMissBlock + " in " + colIndex);
-
-        //bug in here
-        //fill blanket by adding new block
-        for (int i = 0; i < quantitiesMissBlock ; i++)
+        if (j >= 0)
         {
+            //BlockController tmp = field[rowIndex, colIndex];
+            AddBlockFromTopPos(rowIndex, colIndex, field[j, colIndex]);
+            field[j, colIndex] = null;
+        }
+        else
+        {
+
+            //fill blanket by adding new block
             // get pos need to fill block in matrix
             int needFilledColIndex = colIndex;
-            int needFilledRowIndex = quantitiesMissBlock - 1 - i;
+            int needFilledRowIndex = rowIndex;
 
             BlockController blockFill = null;
 
-            // if having top field matrix
+            //if having top field matrix
             if (_summonBlockController != null)
             {
                 //get retrieved block pos from top field
@@ -84,23 +79,57 @@ public class FillBlockController : MonoBehaviour
                 int retrievedRowIndex = _summonBlockController.GetTopFieldNumRows() - 1;
                 Debug.Log("check retrieved matrix index : " + retrievedRowIndex + " , " + retrievedColIndex);
 
-                blockFill = _summonBlockController.GetBlockFromTopField(retrievedRowIndex, retrievedColIndex);
+                //search block from top field
+                do
+                {
+                    blockFill = _summonBlockController.GetBlockFromTopField(retrievedRowIndex, retrievedColIndex);
+                    retrievedRowIndex--;
+                    if(retrievedRowIndex < 0) break;
+                } while (blockFill == null);
+                
 
 
             }
             else
             {
+
                 Debug.Log("adding new block directly into matrix");
                 Vector2 posFilled = _fieldDraw.TransformFromMatrixIndexToPos(needFilledRowIndex, needFilledColIndex);
                 blockFill = _blockPool.RetrieveBlockFromPool(posFilled);
-                
+
+
             }
 
-            addBlockTasks.Join(AddBlock(needFilledRowIndex, needFilledColIndex, blockFill));
 
             
+            AddBlockFromTopPos(needFilledRowIndex, needFilledColIndex, blockFill);
+
+
+        }
+    }
+
+   
+    public void FillBlockIntoField()
+    {
+
+        for (int rowIndex = _fieldDraw.NumRows - 1; rowIndex >= 0; rowIndex--)
+        {
+            for (int colIndex = 0; colIndex < _fieldDraw.NumCols; colIndex++)
+            {
+
+                if (_fieldDraw.Field[rowIndex, colIndex] == null)
+                {
+                    PushTopBlockDown(rowIndex, colIndex);
+                }
+            }
         }
 
-        await addBlockTasks.AsyncWaitForCompletion();
+
+        
+
+
+
+
+
     }
 }

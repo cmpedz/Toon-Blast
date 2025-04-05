@@ -16,9 +16,12 @@ MonoBehaviour:
   - boosterName: 0
     minRequiredBlock: 5
     maxRequiredBlock: 6
+    booster: {fileID: 2844431410252358252, guid: 080f540e8a6a2ef428a663a4bb1d988e, type: 3}
   - boosterName: 1
     minRequiredBlock: 7
     maxRequiredBlock: 8
+    booster: {fileID: 2844431410252358252, guid: 080f540e8a6a2ef428a663a4bb1d988e, type: 3}
   - boosterName: 2
     minRequiredBlock: 9
     maxRequiredBlock: 1000
+    booster: {fileID: 2844431410252358252, guid: 080f540e8a6a2ef428a663a4bb1d988e, type: 3}

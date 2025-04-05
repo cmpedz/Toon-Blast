@@ -8,10 +8,10 @@ public class BoosterSOData : ScriptableObject
    
 
     [System.Serializable]
-    class BoosterData
+    public class BoosterData
     {
         public Sprite icon;
-        public int typeBlock;
+        public BlockTypeName typeBlock;
         public BoosterName boosterName;
     }
 
@@ -19,20 +19,24 @@ public class BoosterSOData : ScriptableObject
 
     [SerializeField] private List<BoosterData> _boosters;
 
-    public Sprite GetBooster( int quantitiesSimilarBlock, int typeBlock)
+    public BoosterData GetBooster( int quantitiesSimilarBlock, BlockTypeName typeBlock)
     {
         foreach ( BoosterData booster in _boosters)
         {
-            BoosterRecipeSO.BoosterRecipe recipe = _recipe.GetRecipe(booster.boosterName);
-
-            if(booster.typeBlock == typeBlock && 
+           
+            BoosterRecipeSO.BoosterRecipe recipe = _recipe.GetRecipe(booster.boosterName.ToString());
+            Debug.Log("check booster recipe : " + recipe);
+            Debug.Log("check quantities similar block : " + quantitiesSimilarBlock + " , check type block : " + typeBlock);
+            if(booster.typeBlock.Equals(typeBlock) && 
                recipe.minRequiredBlock <= quantitiesSimilarBlock &&
                recipe.maxRequiredBlock >= quantitiesSimilarBlock)
             {
-                return booster.icon;
+                return booster;
             }
         }
 
+
+        Debug.Log("no booster recipe found");
         return null;
     }
 }

@@ -12,18 +12,37 @@ public class BlockPool : MonoBehaviour
     [SerializeField] private Queue<BlockController> _inactiveBlocksPool = new Queue<BlockController>();
     [SerializeField] private Transform _blocksContain;
 
+    private static BlockPool instance;
+    public static BlockPool Instance
+    {
+        get { return instance; }
+    }
+
     private void Awake()
     {
-        for (int i = 0; i < _quantititesBlock; i++)
+        if (instance == null)
         {
-            _fieldBlocksPool.Add(CreateRandomBlock(i + 1));
-            _inactiveBlocksPool.Enqueue(_fieldBlocksPool[i]);
+            instance = this;
+            for (int i = 0; i < _quantititesBlock; i++)
+            {
+                _fieldBlocksPool.Add(CreateRandomBlock(i + 1));
+                _inactiveBlocksPool.Enqueue(_fieldBlocksPool[i]);
+            }
         }
+        else
+        {
+            if (instance != gameObject) 
+            {
+                Destroy(gameObject);
+            }
+        }
+
+       
     }
 
     private void Start()
     {
-      
+       
     }
 
     public BlockController CreateRandomBlock(int orderSummon)
@@ -42,9 +61,14 @@ public class BlockPool : MonoBehaviour
         return newBlock;  
     }
 
-    //bug do lỗi GetRandomBlock : khả năng logic kiểm tra block inactive đang lỗi
     public BlockController RetrieveBlockFromPool(Vector2 position)
     {
+        if (_inactiveBlocksPool.Count == 0)
+        {
+            Debug.Log("inactive pool is null");
+            return null;
+        }
+
         BlockController block = _inactiveBlocksPool.Dequeue();
         block.gameObject.SetActive(true);
         block.transform.position = position;
@@ -53,8 +77,10 @@ public class BlockPool : MonoBehaviour
 
     public void SendBlockBackToPool(BlockController block)
     {
+        
         _inactiveBlocksPool.Enqueue(block);
-        block.OnInActiveEvent();
+        
+        block.OnDestroyEvent();
     }
     
 

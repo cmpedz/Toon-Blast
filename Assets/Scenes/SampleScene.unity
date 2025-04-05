@@ -169,10 +169,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fieldBlocksType:
-  - {fileID: 1574083407243627343, guid: 630593474c0f5044e9c6c8cdfe9f10e3, type: 3}
-  - {fileID: 8934948684606148105, guid: 74c5ff134dd149647a07de541b5ebc27, type: 3}
-  - {fileID: 3667427732658637323, guid: 6a439c826a51d5044bc3b5c8940fbe4a, type: 3}
-  - {fileID: 289501229389124206, guid: 1adfa1a829ea4434eb70aac555b2deb0, type: 3}
+  - {fileID: 7098482664695005205, guid: 1adfa1a829ea4434eb70aac555b2deb0, type: 3}
+  - {fileID: 6080758475852732528, guid: 6a439c826a51d5044bc3b5c8940fbe4a, type: 3}
+  - {fileID: 2123785835683126386, guid: 74c5ff134dd149647a07de541b5ebc27, type: 3}
+  - {fileID: 8313124905490766132, guid: 630593474c0f5044e9c6c8cdfe9f10e3, type: 3}
   _quantititesBlock: 100
   _fieldBlocksPool: []
   _blocksContain: {fileID: 974190533}
@@ -508,6 +508,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44430bb3458d7994a9405895033fd71b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1234834986 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4013848231835535753, guid: 0a3b2b1bad24ff342ad366e2f8172526, type: 3}
+  m_PrefabInstance: {fileID: 4583687195108950089}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99f0b4d9a78029d4495979ca18880c4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1681476125
 GameObject:
   m_ObjectHideFlags: 0
@@ -585,8 +596,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fieldManager: {fileID: 653704918}
-  _blockPool: {fileID: 184017051}
+  _topField: {fileID: 1234834986}
+  _normalBlockPool: {fileID: 184017051}
   _checkMatrixController: {fileID: 2008449745}
+  _bosterRecipeSO: {fileID: 11400000, guid: 9cb9903071317ef4f8f00c2d8ba818f8, type: 2}
 --- !u!114 &2008449745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -647,6 +660,10 @@ PrefabInstance:
       propertyPath: _blockPool
       value: 
       objectReference: {fileID: 184017051}
+    - target: {fileID: 538617683824968229, guid: af344e987e5372b4eb20a34688fd9171, type: 3}
+      propertyPath: _speedFallDown
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 538617683824968229, guid: af344e987e5372b4eb20a34688fd9171, type: 3}
       propertyPath: _summonBlockController
       value: 
@@ -732,6 +749,10 @@ PrefabInstance:
       propertyPath: _blockPool
       value: 
       objectReference: {fileID: 184017051}
+    - target: {fileID: 4013848231835535753, guid: 0a3b2b1bad24ff342ad366e2f8172526, type: 3}
+      propertyPath: _speedFallDown
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 4481762355810149213, guid: 0a3b2b1bad24ff342ad366e2f8172526, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.10787839
@@ -772,6 +793,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8177539738637655515, guid: 0a3b2b1bad24ff342ad366e2f8172526, type: 3}
+      propertyPath: _blockPool
+      value: 
+      objectReference: {fileID: 184017051}
     - target: {fileID: 8324689517723318279, guid: 0a3b2b1bad24ff342ad366e2f8172526, type: 3}
       propertyPath: _blockPool
       value: 

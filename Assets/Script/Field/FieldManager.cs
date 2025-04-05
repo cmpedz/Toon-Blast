@@ -18,36 +18,24 @@ public class FieldManager : MonoBehaviour
         _boosterManager.HandleBoosterInMatrix(_fieldDraw);
     }
 
-    public async UniTask FillingBlock(Dictionary<int, int> colsLackBlocks)
+    public async UniTask FillingBlock()
     {
-        List<UniTask> fillColTasks = new List<UniTask>();
+        //List<UniTask> fillColTasks = new List<UniTask>();
 
-        foreach (KeyValuePair<int, int> colLackBlock in colsLackBlocks)
-        {
-            int colIndex = colLackBlock.Key;
-            int missingBlocks = colLackBlock.Value;
-
-            fillColTasks.Add(_fillingBlock.FillBlockIntoField(colIndex, missingBlocks));
-        }
-
-        await UniTask.WhenAll(fillColTasks);
-
-        _boosterManager.HandleBoosterInMatrix(_fieldDraw);
-
-        //for (int rowIndex = _fieldDraw.NumRows - 1; rowIndex >= 0; rowIndex--)
+        //foreach (KeyValuePair<int, int> colLackBlock in colsLackBlocks)
         //{
-        //    for(int colIndex = 0; colIndex < _fieldDraw.NumCols; colIndex++)
-        //    {
-        //        Debug.Log("check block in " + rowIndex + " , " + colIndex + " is " + _fieldDraw.Field[rowIndex, colIndex] +
-        //            " is active : " + !_fieldDraw.Field[rowIndex, colIndex].gameObject.activeSelf);
+        //    int colIndex = colLackBlock.Key;
+        //    int missingBlocks = colLackBlock.Value;
 
-        //        if (!_fieldDraw.Field[rowIndex, colIndex].gameObject.activeSelf)
-        //        {
-        //            Debug.Log("check block in " + rowIndex + " , " + colIndex + " is inactive");
-        //            _fillingBlock.FillBlockIntoField(colIndex, 1);
-        //        }
-        //    }
+        //    fillColTasks.Add(_fillingBlock.FillBlockIntoField(colIndex, missingBlocks));
         //}
+
+        //await UniTask.WhenAll(fillColTasks);
+
+
+        _fillingBlock.FillBlockIntoField();
+       
+        _boosterManager.HandleBoosterInMatrix(_fieldDraw);
     }
 
     public FieldDrawController GetFieldInfors()

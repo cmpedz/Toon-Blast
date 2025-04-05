@@ -9,20 +9,19 @@ public class CheckMatrixController : MonoBehaviour
     //queue to save adjacent similar blocks need to checked 
     private Queue<BlockController> _detectSimilarBlockQueue = new Queue<BlockController>();
 
-    public void CheckAdjacentBlock(int colIndex, int rowIndex, BlockController target, 
+    public void CheckAdjacentNormalBlock(int colIndex, int rowIndex, BlockController target, 
         List<BlockController> foundSimilarBlocksList)
     {
 
-        bool isOverComeMatrix = colIndex >= _fieldManager.GetFieldInfors().NumCols
-            || rowIndex >= _fieldManager.GetFieldInfors().NumRows
-            || colIndex < 0 || rowIndex < 0;
 
-        if (isOverComeMatrix)
+        if (_fieldManager.GetFieldInfors().IsOverComeMatrix(colIndex, rowIndex) || target == null)
         {
             return;
         }
 
         BlockController checkFieldBlock = _fieldManager.GetFieldInfors().Field[rowIndex, colIndex];
+
+        if (checkFieldBlock == null) return;
 
         if (target.IsEqual(checkFieldBlock))
         {
@@ -60,13 +59,13 @@ public class CheckMatrixController : MonoBehaviour
 
             int rowIndex = (int)matrixIndex.x;
 
-            CheckAdjacentBlock(colIndex + 1, rowIndex, fieldBlock, foundSimilarBlocksList);
+            CheckAdjacentNormalBlock(colIndex + 1, rowIndex, fieldBlock, foundSimilarBlocksList);
 
-            CheckAdjacentBlock(colIndex, rowIndex + 1, fieldBlock, foundSimilarBlocksList);
+            CheckAdjacentNormalBlock(colIndex, rowIndex + 1, fieldBlock, foundSimilarBlocksList);
 
-            CheckAdjacentBlock(colIndex - 1, rowIndex, fieldBlock, foundSimilarBlocksList);
+            CheckAdjacentNormalBlock(colIndex - 1, rowIndex, fieldBlock, foundSimilarBlocksList);
 
-            CheckAdjacentBlock(colIndex, rowIndex - 1, fieldBlock, foundSimilarBlocksList);
+            CheckAdjacentNormalBlock(colIndex, rowIndex - 1, fieldBlock, foundSimilarBlocksList);
         }
 
         //reset list, queue

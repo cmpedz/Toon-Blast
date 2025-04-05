@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine;
 public class SummonBlockController : MonoBehaviour
 {
     [SerializeField] private FieldDrawController _topField;
+
+    [SerializeField] private BlockPool _blockPool;
     
 
     //using async method to optimize performance
@@ -12,11 +15,10 @@ public class SummonBlockController : MonoBehaviour
     {
         BlockController retrievedBlock = _topField.Field[rowIndex, colIndex];
 
-        retrievedBlock.gameObject.SetActive(false);
+        _topField.Field[rowIndex, colIndex] = null;
 
-        _topField.GetComponent<FillBlockController>().FillBlockIntoField(colIndex, 1);
+        //_topField.GetComponent<FillBlockController>().FillBlockIntoField(rowIndex, colIndex);
 
-        retrievedBlock.gameObject.SetActive(true);
 
         return retrievedBlock;
 

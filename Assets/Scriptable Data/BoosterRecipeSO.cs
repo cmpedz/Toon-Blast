@@ -18,15 +18,17 @@ public class BoosterRecipeSO : ScriptableObject
         public BoosterName boosterName;
         public int minRequiredBlock;
         public int maxRequiredBlock;
+        public BoosterBlockController booster;
     }
 
     [SerializeField] private List<BoosterRecipe> _recipe;
 
-    public BoosterRecipe GetRecipe(BoosterName name)
+    public BoosterRecipe GetRecipe(string name)
     {
         foreach (BoosterRecipe recipe in _recipe)
         {
-            if(recipe.boosterName == name)
+           
+            if (recipe.boosterName.ToString().Equals(name))
             {
                 return recipe;
             }

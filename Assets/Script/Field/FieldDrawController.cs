@@ -14,8 +14,6 @@ public class FieldDrawController : MonoBehaviour
 
     [SerializeField] private int _numCols;
 
-    [SerializeField] private BlockPool _blockPool;
-
     [SerializeField] private Transform _centerPoint;
 
     [SerializeField] private GameObject _fieldBlock;
@@ -69,7 +67,7 @@ public class FieldDrawController : MonoBehaviour
             {
                 Vector2 renderPos = GetRenderFieldBlockPos(j, i);
 
-                _field[i, j] = _blockPool.RetrieveBlockFromPool(renderPos);
+                _field[i, j] = BlockPool.Instance.RetrieveBlockFromPool(renderPos);
 
                 Vector2 roundRenderPos = new Vector2((float) Math.Round(renderPos.x, 2), (float)Math.Round(renderPos.y, 2));
 
@@ -119,5 +117,11 @@ public class FieldDrawController : MonoBehaviour
 
         return new Vector2( posX, posY);
     }
-    
+
+    public bool IsOverComeMatrix(int colIndex, int rowIndex)
+    {
+        return rowIndex < 0 || colIndex < 0 || colIndex >= _numCols || rowIndex >= _numRows;
+
+    }
+
 }

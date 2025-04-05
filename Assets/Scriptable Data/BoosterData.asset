@@ -15,38 +15,38 @@ MonoBehaviour:
   _recipe: {fileID: 11400000, guid: 9cb9903071317ef4f8f00c2d8ba818f8, type: 2}
   _boosters:
   - icon: {fileID: 21300000, guid: ddecb1deefe3020498bca638fefec85c, type: 3}
-    typeBlock: 1
+    typeBlock: 0
     boosterName: 0
   - icon: {fileID: 21300000, guid: d9ef094e5245522478ec21ced1010abe, type: 3}
-    typeBlock: 1
+    typeBlock: 0
     boosterName: 1
   - icon: {fileID: 21300000, guid: aa0ff41a6b71ed84dbdf3f9892b96634, type: 3}
-    typeBlock: 1
+    typeBlock: 0
     boosterName: 2
   - icon: {fileID: 21300000, guid: abdef6b82e870b9489849a2f1a808407, type: 3}
-    typeBlock: 2
+    typeBlock: 1
     boosterName: 0
   - icon: {fileID: 21300000, guid: cd13416e31b536d459563e45591050bc, type: 3}
-    typeBlock: 2
+    typeBlock: 1
     boosterName: 1
   - icon: {fileID: 21300000, guid: fc91deb900128c74bb5a7aad96ae9eb2, type: 3}
-    typeBlock: 2
+    typeBlock: 1
     boosterName: 2
   - icon: {fileID: 21300000, guid: d110ce4e5167ced48bfedb3caea33df4, type: 3}
-    typeBlock: 3
+    typeBlock: 2
     boosterName: 0
   - icon: {fileID: 21300000, guid: 1805e7778367b0f4582ec030a7b68016, type: 3}
-    typeBlock: 3
+    typeBlock: 2
     boosterName: 1
   - icon: {fileID: 21300000, guid: c51e132c0ce000946896c1b7b8b4c8e2, type: 3}
-    typeBlock: 3
+    typeBlock: 2
     boosterName: 2
-  - icon: {fileID: 21300000, guid: 12ae5bd6ce383ea47b8b8ba9f44ee29b, type: 3}
-    typeBlock: 4
+  - icon: {fileID: 21300000, guid: ce4be7c14e9c12d4480b5844730738cb, type: 3}
+    typeBlock: 3
     boosterName: 0
-  - icon: {fileID: 21300000, guid: 1d03b56af1947e146a34e66adde69ca1, type: 3}
-    typeBlock: 4
+  - icon: {fileID: 21300000, guid: 25b941c56a0d5bc4c8c82b4a8259a3d2, type: 3}
+    typeBlock: 3
     boosterName: 1
-  - icon: {fileID: 21300000, guid: c472aebc2428048408b9f63218a3472b, type: 3}
-    typeBlock: 4
+  - icon: {fileID: 21300000, guid: a63c173d16ed9b248a6d0aab9e8a2a07, type: 3}
+    typeBlock: 3
     boosterName: 2

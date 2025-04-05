@@ -44,21 +44,29 @@ public class BoosterManager : MonoBehaviour
             for (int j = 0; j < _fieldHandle.NumCols; j++) 
             {
 
-                if (flag[i, j]) continue;
+                if (flag[i, j] || _fieldHandle.Field[i, j] == null) continue;
 
                 //get all similar adjacent blocks with clicked block
                 List<BlockController> similarBlocksList = _checkMatrixController.CheckMatrix(_fieldHandle.Field[i,j]);
 
                 int quantitiesSimilarBlocks = similarBlocksList.Count;
-                int blockType = similarBlocksList[0].Type;
+                BlockTypeName blockType = similarBlocksList[0].Type;
+
+                if (blockType.Equals(BlockTypeName.Booster)) continue;
 
                 //handle booster
-                Sprite booster = _boosterData.GetBooster(quantitiesSimilarBlocks, blockType);
+                BoosterSOData.BoosterData booster = _boosterData.GetBooster(quantitiesSimilarBlocks, blockType);
+
+                Debug.Log("check booster : " + booster);
 
                 foreach (BlockController block in similarBlocksList)
                 {
-                    block.CheckIsBooster(booster);
-                    Vector2 matrixIndex = FieldDrawController.TransformFromPosToMatrixIndex(block.transform.position);
+                    NormalBlockController normalBlock = block as NormalBlockController;
+
+                    normalBlock.CheckIsAbleMergedBooster(booster);
+
+                    Vector2 matrixIndex = FieldDrawController.TransformFromPosToMatrixIndex(normalBlock.transform.position);
+
                     int rowIndex = (int)matrixIndex.x;
                     int colIndex = (int)matrixIndex.y;
 
