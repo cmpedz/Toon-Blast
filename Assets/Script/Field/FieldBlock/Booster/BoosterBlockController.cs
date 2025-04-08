@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,10 @@ public abstract class BoosterBlockController : BlockController
         get { return _boosterName; }
     }
 
-    public abstract void OnBoosterActive(FieldDrawController field);
+    public virtual async UniTask OnBoosterActive(FieldDrawController field)
+    {
+        
+    }
 
     public override void OnDestroyEvent()
     {

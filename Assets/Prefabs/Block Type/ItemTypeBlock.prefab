@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 7976145012644465935}
   m_Layer: 0
   m_Name: ItemTypeBlock
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -231,3 +231,4 @@ MonoBehaviour:
   _type: 0
   _icon: {fileID: 8658607119669753886}
   _defaultIcon: {fileID: 0}
+  _boosterName: 

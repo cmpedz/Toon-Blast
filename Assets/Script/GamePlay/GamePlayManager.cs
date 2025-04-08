@@ -41,6 +41,7 @@ public class GamePlayManager : MonoBehaviour
     //handle field block clicked event 
     public async UniTask OnBlockClicked(BlockController clickedFieldBlock)
     {
+        BoosterManager.Instance.CurrentBoostersActive.Clear();
 
         List<BlockController> foundSimilarBlocksList = _checkMatrixController.CheckMatrix(clickedFieldBlock);
 
@@ -49,29 +50,43 @@ public class GamePlayManager : MonoBehaviour
 
         if (isClickedBlockBooster) 
         {
-            OnClickedBlockIsBooster(foundSimilarBlocksList);
+            BoosterManager.Instance.CurrentBoostersActive.Add(OnClickedBlockIsBooster(clickedFieldBlock as BoosterBlockController));
+
+            //List<UniTask> finishedBooster = new List<UniTask>();
+
+
+            //foreach (UniTask boosterActive in BoosterManager.Instance.CurrentBoostersActive)
+            //{
+            //    finishedBooster.Add(FillingMatrixAfterBoosterAcitve(boosterActive));
+            //}
+            await UniTask.WhenAll(BoosterManager.Instance.CurrentBoostersActive);
         }
         else
         {
             OnClickedBlockIsNormal(foundSimilarBlocksList);
+
+            
         }
 
-
-       await _fieldManager.FillingBlock();
+        await _fieldManager.FillingBlock();
 
         //filling block for top field
-
         _topField.FillBlockIntoField();
     }
 
-    //handle event if clicked block is booster
-    private void OnClickedBlockIsBooster(List<BlockController> foundSimilarBlocksList)
+    private async UniTask FillingMatrixAfterBoosterAcitve(UniTask boosterActive)
     {
-        BoosterBlockController booster =  foundSimilarBlocksList[0] as BoosterBlockController;
+        await boosterActive;
+        await _fieldManager.FillingBlock();
+    }
+
+    //handle event if clicked block is booster
+    private async UniTask OnClickedBlockIsBooster(BoosterBlockController booster)
+    {
 
         if (booster == null) return;
 
-        booster.OnBoosterActive(_fieldManager.GetFieldInfors());
+        await booster.OnBoosterActive(_fieldManager.GetFieldInfors());
         
     }
 

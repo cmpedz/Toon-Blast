@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class BoosterManager : MonoBehaviour
 {
-    [SerializeField] private CheckMatrixController _checkMatrixController;
-
-    [SerializeField] private BoosterSOData _boosterData;
 
     private static BoosterManager _instance;
 
@@ -15,6 +12,19 @@ public class BoosterManager : MonoBehaviour
         get { return _instance;}
 
         private set { _instance = value; }
+    }
+
+     
+    [SerializeField] private CheckMatrixController _checkMatrixController;
+
+    [SerializeField] private BoosterSOData _boosterData;
+
+    [SerializeField] private List<UniTask> _currentBoostersActive = new List<UniTask>();
+
+    public List<UniTask> CurrentBoostersActive
+    {
+        get { return _currentBoostersActive; }
+
     }
 
     private void Awake()
@@ -66,6 +76,8 @@ public class BoosterManager : MonoBehaviour
                     normalBlock.CheckIsAbleMergedBooster(booster);
 
                     Vector2 matrixIndex = FieldDrawController.TransformFromPosToMatrixIndex(normalBlock.transform.position);
+                    
+                    if (matrixIndex.Equals(FieldDrawController.ErrorMatrixPos)) return;
 
                     int rowIndex = (int)matrixIndex.x;
                     int colIndex = (int)matrixIndex.y;

@@ -33,7 +33,9 @@ public class FieldManager : MonoBehaviour
         //await UniTask.WhenAll(fillColTasks);
 
 
-        _fillingBlock.FillBlockIntoField();
+        await _fillingBlock.FillBlockIntoField();
+
+        await UniTask.Delay(100);
        
         _boosterManager.HandleBoosterInMatrix(_fieldDraw);
     }

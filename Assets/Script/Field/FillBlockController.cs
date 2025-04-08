@@ -13,11 +13,11 @@ public class FillBlockController : MonoBehaviour
     [SerializeField] private BlockPool _blockPool;
 
     [SerializeField] private SummonBlockController _summonBlockController;
-    private void AddBlockFromTopPos(int rowIndex, int colIndex, BlockController block)
+    private DG.Tweening.Tween AddBlockFromTopPos(int rowIndex, int colIndex, BlockController block)
     {
         Debug.Log("fill block !");
 
-        if (block == null) return;
+        if (block == null) return null;
 
         Vector2 posInMatrix = _fieldDraw.TransformFromMatrixIndexToPos(rowIndex, colIndex);
 
@@ -25,7 +25,7 @@ public class FillBlockController : MonoBehaviour
 
         float height = block.transform.position.y - posInMatrix.y;
 
-        block.transform.DOMove(posInMatrix, _speedFallDown * height)
+        return block.transform.DOMove(posInMatrix, _speedFallDown * height)
             .SetEase(Ease.InQuad);
  
     }
@@ -41,10 +41,9 @@ public class FillBlockController : MonoBehaviour
         _fieldDraw.Field[rowIndex, colIndex] = block;
     }
 
-    private void PushTopBlockDown(int rowIndex, int colIndex)
+    private DG.Tweening.Tween PushTopBlockDown(int rowIndex, int colIndex)
     {
         BlockController[,] field = _fieldDraw.Field;
-
         //push top block down to fill the field
         int j = rowIndex;
 
@@ -57,9 +56,10 @@ public class FillBlockController : MonoBehaviour
 
         if (j >= 0)
         {
-            //BlockController tmp = field[rowIndex, colIndex];
-            AddBlockFromTopPos(rowIndex, colIndex, field[j, colIndex]);
+            BlockController tmp = field[j, colIndex];
             field[j, colIndex] = null;
+            return AddBlockFromTopPos(rowIndex, colIndex, tmp);
+            
         }
         else
         {
@@ -86,8 +86,8 @@ public class FillBlockController : MonoBehaviour
                     retrievedRowIndex--;
                     if(retrievedRowIndex < 0) break;
                 } while (blockFill == null);
-                
 
+                return AddBlockFromTopPos(needFilledRowIndex, needFilledColIndex, blockFill);
 
             }
             else
@@ -97,20 +97,23 @@ public class FillBlockController : MonoBehaviour
                 Vector2 posFilled = _fieldDraw.TransformFromMatrixIndexToPos(needFilledRowIndex, needFilledColIndex);
                 blockFill = _blockPool.RetrieveBlockFromPool(posFilled);
 
+                AddBlockDirectlyToMatrix(needFilledRowIndex, needFilledColIndex, blockFill);
 
+                return null;
             }
 
 
             
-            AddBlockFromTopPos(needFilledRowIndex, needFilledColIndex, blockFill);
+
 
 
         }
     }
 
    
-    public void FillBlockIntoField()
+    public async UniTask FillBlockIntoField()
     {
+        DG.Tweening.Tween lastBlockFallDown = null;
 
         for (int rowIndex = _fieldDraw.NumRows - 1; rowIndex >= 0; rowIndex--)
         {
@@ -119,17 +122,17 @@ public class FillBlockController : MonoBehaviour
 
                 if (_fieldDraw.Field[rowIndex, colIndex] == null)
                 {
-                    PushTopBlockDown(rowIndex, colIndex);
+                    lastBlockFallDown = PushTopBlockDown(rowIndex, colIndex);
                 }
             }
         }
 
+        if (lastBlockFallDown != null) {
+            Debug.Log("check last block fall down : " + lastBlockFallDown);
+            await lastBlockFallDown.AsyncWaitForCompletion();
+        }
 
         
-
-
-
-
 
     }
 }

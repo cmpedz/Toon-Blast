@@ -8,6 +8,7 @@ using UnityEngine.Timeline;
 public class FieldDrawController : MonoBehaviour
 {
 
+    public static Vector2 ErrorMatrixPos = new Vector2(-1, -1);
     private static Dictionary<Vector2, Vector2> _blockPosToMatrixIndexDic = new Dictionary<Vector2, Vector2>();
 
     [SerializeField] private int _numRows;
@@ -21,7 +22,8 @@ public class FieldDrawController : MonoBehaviour
     private BlockController[,] _field;
     private float _blockHeight;
     private float _blockWidth;
-
+    private Transform _topLeftMatrix;
+    private Transform _bottomRightMatrix;
     private Vector2 _summonPoint;
 
     public BlockController[,] Field
@@ -83,6 +85,10 @@ public class FieldDrawController : MonoBehaviour
         }
 
 
+        _topLeftMatrix = _field[0, 0].transform;
+
+        _bottomRightMatrix = _field[_numRows - 1, _numCols - 1].transform;
+
     }
 
     public Vector2 TransformFromMatrixIndexToPos(int rowIndex, int colIndex)
@@ -103,7 +109,7 @@ public class FieldDrawController : MonoBehaviour
             return new Vector2(rowIndex, colIndex);
         }
 
-        return Vector2.zero;
+        return ErrorMatrixPos;
 
        
     }
@@ -121,6 +127,13 @@ public class FieldDrawController : MonoBehaviour
     public bool IsOverComeMatrix(int colIndex, int rowIndex)
     {
         return rowIndex < 0 || colIndex < 0 || colIndex >= _numCols || rowIndex >= _numRows;
+
+    }
+
+    public bool IsOverComeMatrix(Vector2 pos)
+    {
+        return pos.x < _topLeftMatrix.position.x || pos.x > _bottomRightMatrix.position.x
+               || pos.y > _topLeftMatrix.position.y || pos.y < _bottomRightMatrix.position.y;
 
     }
 

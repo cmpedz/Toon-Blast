@@ -1,10 +1,11 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BombBoosterController : BoosterBlockController
 {
-    public override void OnBoosterActive(FieldDrawController fieldDraw)
+    public async override UniTask OnBoosterActive(FieldDrawController fieldDraw)
     {
         BlockController[,] field = fieldDraw.Field;
         Vector2 matrixIndex = FieldDrawController.TransformFromPosToMatrixIndex(transform.position);
@@ -12,7 +13,6 @@ public class BombBoosterController : BoosterBlockController
         int rowIndex = (int)matrixIndex.x;
 
         field[rowIndex, colIndex] = null;
-
 
 
         for (int i = rowIndex-1; i<= rowIndex + 1 ; i++)
@@ -27,7 +27,7 @@ public class BombBoosterController : BoosterBlockController
                     {
                         BoosterBlockController booster = field[i, j] as BoosterBlockController;
 
-                        booster.OnBoosterActive(fieldDraw);
+                        BoosterManager.Instance.CurrentBoostersActive.Add(booster.OnBoosterActive(fieldDraw));
 
                     }
                     else
@@ -43,5 +43,9 @@ public class BombBoosterController : BoosterBlockController
         }
 
         this.OnDestroyEvent();
+
+        
+
+
     }
 }
