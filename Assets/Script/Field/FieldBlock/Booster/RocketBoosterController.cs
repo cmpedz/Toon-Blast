@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using static UnityEngine.Rendering.DebugUI;
 
-public class RocketBoosterController : BoosterBlockController
+public class RocketBoosterController : BoosterBlockController, IEnableChangeRotation
 {
     [SerializeField] private RocketController _rocket;
 
@@ -22,6 +23,38 @@ public class RocketBoosterController : BoosterBlockController
 
     private FieldDrawController _field;
 
+    public void ChangeRotation(float angle)
+    {
+        transform.rotation = Quaternion.Euler(0f, 0f, angle);
+    }
+
+    public bool IsEnableRotation(List<BlockController> similarBlocksList)
+    {
+        List<float> rowIndexs = new List<float>();
+
+        List<float> colIndexs = new List<float>();
+
+        foreach (BlockController block in similarBlocksList) {
+            Vector2 indexInMatrix = FieldDrawController.TransformFromPosToMatrixIndex(block.transform.position);
+            rowIndexs.Add(indexInMatrix.x);
+            colIndexs.Add(indexInMatrix.y);
+        }
+
+        rowIndexs.Sort();
+        colIndexs.Sort();
+
+        float distanceRowIndex = rowIndexs[rowIndexs.Count - 1] - rowIndexs[0];
+
+        float distanceColIndex = colIndexs[colIndexs.Count - 1] - colIndexs[0];
+
+        Debug.Log("check distance row index : " + distanceRowIndex);
+
+        Debug.Log("check distance col index : " + distanceColIndex);
+
+        if (distanceColIndex < distanceRowIndex) return true;
+
+        return false;
+    }
 
     public override async UniTask OnBoosterActive(FieldDrawController field)
     {

@@ -25,8 +25,7 @@ public class BoosterSOData : ScriptableObject
         {
            
             BoosterRecipeSO.BoosterRecipe recipe = _recipe.GetRecipe(booster.boosterName.ToString());
-            Debug.Log("check booster recipe : " + recipe);
-            Debug.Log("check quantities similar block : " + quantitiesSimilarBlock + " , check type block : " + typeBlock);
+           
             if(booster.typeBlock.Equals(typeBlock) && 
                recipe.minRequiredBlock <= quantitiesSimilarBlock &&
                recipe.maxRequiredBlock >= quantitiesSimilarBlock)
@@ -36,7 +35,8 @@ public class BoosterSOData : ScriptableObject
         }
 
 
-        Debug.Log("no booster recipe found");
         return null;
     }
+
+  
 }

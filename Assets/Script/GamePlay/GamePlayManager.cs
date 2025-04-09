@@ -111,7 +111,11 @@ public class GamePlayManager : MonoBehaviour
 
             int rowIndex = (int)matrixIndex.x;
 
-            BlockController booster = Instantiate(boosterRecipe.booster);
+            BoosterBlockController booster = Instantiate(boosterRecipe.booster);
+
+            CanBoosterEnableColor(booster, clickedBlock.Type);
+
+            CanBoosterChangeRotation(booster, _foundSimilarBlocksList);
 
             _fieldManager.GetComponent<FillBlockController>().AddBlockDirectlyToMatrix(rowIndex, colIndex, booster);
 
@@ -139,5 +143,30 @@ public class GamePlayManager : MonoBehaviour
 
         
 
+    }
+
+
+    private void CanBoosterEnableColor(BoosterBlockController booster, BlockTypeName blockType)
+    {
+        if (booster is IEnableColor boosterColor)
+        {
+
+            boosterColor.ChangeColor(blockType);
+            
+        }
+    }
+
+    private void CanBoosterChangeRotation(BoosterBlockController booster, List<BlockController> similarBlocksList)
+    {
+        float angle = 90;
+
+        if(booster is IEnableChangeRotation boosterRotation)
+        {
+            if (boosterRotation.IsEnableRotation(similarBlocksList))
+            {
+                boosterRotation.ChangeRotation(angle);
+            }
+            
+        }
     }
 }

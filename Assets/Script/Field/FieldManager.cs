@@ -35,9 +35,10 @@ public class FieldManager : MonoBehaviour
 
         await _fillingBlock.FillBlockIntoField();
 
-        await UniTask.Delay(100);
-       
+        await UniTask.Delay(200);
+
         _boosterManager.HandleBoosterInMatrix(_fieldDraw);
+
     }
 
     public FieldDrawController GetFieldInfors()

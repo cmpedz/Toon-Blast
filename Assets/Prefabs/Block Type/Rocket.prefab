@@ -276,7 +276,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2730762981757573145, guid: 985b7d6961b264241892775496d3df6f, type: 3}
       propertyPath: m_Name
-      value: Rocket Horizontal
+      value: Rocket
       objectReference: {fileID: 0}
     - target: {fileID: 6034910742191728827, guid: 985b7d6961b264241892775496d3df6f, type: 3}
       propertyPath: m_LocalScale.x

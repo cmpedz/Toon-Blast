@@ -4,8 +4,7 @@ using UnityEngine;
 
 public enum BoosterName
 {
-    RocketVertical,
-    RocketHorizontal,
+    Rocket,
     Bomb,
     Fan
 }
