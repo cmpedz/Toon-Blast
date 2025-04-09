@@ -11,6 +11,8 @@ public class NormalBlockController : BlockController
 
     [SerializeField] private string _boosterName;
 
+    
+
     public string BoosterName
     {
         get { return this._boosterName; }
@@ -37,6 +39,10 @@ public class NormalBlockController : BlockController
 
     public override void OnDestroyEvent()
     {
+        ParticleSystem blockBreakEffect = BlockBreaksEffectPool.Instance.GetBlockBreakEffect(Type, transform);
+
+        blockBreakEffect.Play();
+
         gameObject.SetActive(false);
 
         _icon.sprite = _defaultIcon;

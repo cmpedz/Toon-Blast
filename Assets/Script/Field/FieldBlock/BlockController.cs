@@ -16,7 +16,9 @@ public enum BlockTypeName
 public abstract class BlockController : MonoBehaviour
 {
     [SerializeField] private BlockTypeName _type;
-    
+
+    [SerializeField] protected ParticleSystem _destroyEffect;
+
     public BlockTypeName Type { get { return _type; } }
 
     public bool IsEqual(BlockController other)

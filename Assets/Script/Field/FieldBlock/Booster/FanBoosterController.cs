@@ -52,7 +52,7 @@ public class FanBoosterController : BoosterBlockController, IEnableColor
             }
         }
 
-        await UniTask.Delay(300);
+        await UniTask.Delay(500);
         this.OnDestroyEvent();
 
     }

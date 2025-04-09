@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class BoosterBlockController : BlockController
 {
     [SerializeField] private BoosterName _boosterName;
+   
     public BoosterName BoosterName
     {
         get { return _boosterName; }
@@ -18,7 +19,14 @@ public abstract class BoosterBlockController : BlockController
 
     public override void OnDestroyEvent()
     {
-       Destroy(gameObject);
+        if (_destroyEffect != null)
+        {
+            ParticleSystem destroyEffect = Instantiate(_destroyEffect, transform.position, Quaternion.identity);
+
+            destroyEffect.Play();
+        }
+
+        Destroy(gameObject);
     }
 
 }

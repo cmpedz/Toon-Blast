@@ -14,6 +14,8 @@ public class RocketBoosterController : BoosterBlockController, IEnableChangeRota
 
     [SerializeField] private float _speedMove;
 
+    [SerializeField] private float _varience;
+
 
     private bool _isBothRocketOutOfMatrix = false;
 
@@ -98,10 +100,10 @@ public class RocketBoosterController : BoosterBlockController, IEnableChangeRota
             Transform _bottomRight = ScreenPos.Instance.bottomRight;
 
             _isBothRocketOverComeScreen =
-                (_rocket.transform.position.x < _topLeft.transform.position.x 
-                && _reRocket.transform.position.x > _bottomRight.position.x) ||
-                (_reRocket.transform.position.y > _topLeft.transform.position.y 
-                && _rocket.transform.position.y < _bottomRight.position.y );
+                (_rocket.transform.position.x < _topLeft.transform.position.x - _varience 
+                && _reRocket.transform.position.x > _bottomRight.position.x + _varience) ||
+                (_reRocket.transform.position.y > _topLeft.transform.position.y + _varience 
+                && _rocket.transform.position.y < _bottomRight.position.y - _varience);
 
             if (_isBothRocketOverComeScreen)
             {
