@@ -17,7 +17,7 @@ public class BlockBreaksEffectPool : MonoBehaviour
 
     [SerializeField] private int _quantities;
 
-    [SerializeField] private BlockBreakColorController _blockBreakColor;
+    [SerializeField] private BlockBreakColorSO _blockBreakColor;
 
     
 

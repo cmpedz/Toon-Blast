@@ -39,6 +39,8 @@ public class NormalBlockController : BlockController
 
     public override void OnDestroyEvent()
     {
+        base.OnDestroyEvent();
+
         ParticleSystem blockBreakEffect = BlockBreaksEffectPool.Instance.GetBlockBreakEffect(Type, transform);
 
         blockBreakEffect.Play();

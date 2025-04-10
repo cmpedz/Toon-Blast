@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,8 @@ public class GamePlayManager : MonoBehaviour
 
     [SerializeField] private BoosterRecipeSO _bosterRecipeSO;
 
+    
+
     private void Start()
     {
         if(_instance == null)
@@ -35,12 +38,16 @@ public class GamePlayManager : MonoBehaviour
         }
     }
 
-    
-  
+
+
 
     //handle field block clicked event 
     public async UniTask OnBlockClicked(BlockController clickedFieldBlock)
     {
+        if (GameEventManager.Instance.IsComplete || GameEventManager.Instance.IsFailed) {
+            return;
+        }
+
         BoosterManager.Instance.CurrentBoostersActive.Clear();
 
         List<BlockController> foundSimilarBlocksList = _checkMatrixController.CheckMatrix(clickedFieldBlock);
@@ -86,6 +93,8 @@ public class GamePlayManager : MonoBehaviour
 
         if (booster == null) return;
 
+        GameEventManager.Instance.DecreaseMove();
+
         await booster.OnBoosterActive(_fieldManager.GetFieldInfors());
         
     }
@@ -95,9 +104,19 @@ public class GamePlayManager : MonoBehaviour
     {
 
         //check if quantities of similar adjencent blocks > 1
-        bool isHavingAdjacentSimilarBlockType = _foundSimilarBlocksList.Count > 1;
+        int quantitiesBlockDestroy = _foundSimilarBlocksList.Count;
 
-        if (!isHavingAdjacentSimilarBlockType) return;
+        bool isHavingAdjacentSimilarBlockType = quantitiesBlockDestroy > 1;
+
+        if (!isHavingAdjacentSimilarBlockType)
+        {
+            _foundSimilarBlocksList[0].transform.DOShakePosition(0.5f, 0.1f);
+            return;
+        }
+
+        GameEventManager.Instance.DecreaseMove();
+
+        BlockTypeName clickedBlockType = _foundSimilarBlocksList[0].Type;
 
         //check if clicked block can be merged into booster
         NormalBlockController clickedBlock = _foundSimilarBlocksList[0] as NormalBlockController;
@@ -140,8 +159,6 @@ public class GamePlayManager : MonoBehaviour
             BlockPool.Instance.SendBlockBackToPool(fieldBlock);
 
         }
-
-        
 
     }
 

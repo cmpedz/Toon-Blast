@@ -19,6 +19,8 @@ public abstract class BoosterBlockController : BlockController
 
     public override void OnDestroyEvent()
     {
+        base.OnDestroyEvent();
+
         if (_destroyEffect != null)
         {
             ParticleSystem destroyEffect = Instantiate(_destroyEffect, transform.position, Quaternion.identity);

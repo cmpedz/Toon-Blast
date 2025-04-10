@@ -33,13 +33,17 @@ public abstract class BlockController : MonoBehaviour
     }
     private async void OnMouseDown()
     {
-
         await GamePlayManager.Instance.OnBlockClicked(this);
+        
     }
 
 
 
-    public abstract void OnDestroyEvent();
+    public virtual void OnDestroyEvent()
+    {
+        GameEventManager.Instance.DecreaseQuantitiesTarget(1, Type);
+        GameEventManager.Instance.IncreaseStar();
+    }
 
 
 

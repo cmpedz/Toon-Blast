@@ -26,7 +26,9 @@ public class FillBlockController : MonoBehaviour
         float height = block.transform.position.y - posInMatrix.y;
 
         return block.transform.DOMove(posInMatrix, _speedFallDown * height)
-            .SetEase(Ease.InQuad);
+            .SetEase(Ease.InQuad).OnComplete(
+            () => { block.transform.DOShakePosition(0.2f, new Vector3(0, 0.05f, 0)); }
+            );
  
     }
 
